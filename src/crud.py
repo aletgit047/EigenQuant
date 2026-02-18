@@ -119,17 +119,21 @@ def sync_asset_prices(db: Session, ticker: str) -> None:
             return
 
         # 5. Bulk Save
-        new_prices = [
-            DailyPrice(
-                asset_id=asset.id,
-                date=item['date'],
-                open=item['adjOpen'],
-                high=item['adjHigh'],
-                low=item['adjLow'],
-                close=item['adjClose'],
-                volume=item['adjVolume']
-            ) for item in data
-        ]
+        new_prices = []
+        for item in data:
+            clean_date = datetime.strptime(item['date'][:10], '%Y-%m-%d')
+            
+            new_prices.append(
+                DailyPrice(
+                    asset_id=asset.id,
+                    date=clean_date,
+                    open=item['adjOpen'],
+                    high=item['adjHigh'],
+                    low=item['adjLow'],
+                    close=item['adjClose'],
+                    volume=item['adjVolume']
+                )
+            )
                 
         db.add_all(new_prices)
         db.commit()

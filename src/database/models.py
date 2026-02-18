@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import BigInteger, Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -22,6 +22,6 @@ class DailyPrice(Base):
     high = Column(Float)
     low = Column(Float)
     close = Column(Float)
-    volume = Column(Integer)
+    volume = Column(BigInteger)
     
     asset = relationship("Assets", back_populates="prices")
