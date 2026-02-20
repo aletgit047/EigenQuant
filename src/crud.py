@@ -20,7 +20,7 @@ def get_db():
     finally:
         db.close()
 
-def get_or_create_asset(db: Session, name: str, ticker: str):
+def get_or_create_asset(db: Session, name: str, ticker: str) -> Assets | None:
     """
     Retrieve an asset from the database or create it if it doesn't exist.
 
@@ -30,7 +30,8 @@ def get_or_create_asset(db: Session, name: str, ticker: str):
         ticker (str): The stock market symbol (e.g., 'AAPL').
 
     Returns:
-        Assets: The SQLAlchemy model instance for the asset.
+        Assets: The SQLAlchemy model instance for the asset
+        or None if there was an error during creation.
     """
     ticker_upper = ticker.upper().strip()
     
@@ -64,7 +65,7 @@ def get_asset_by_ticker(db: Session, ticker: str) -> Assets | None:
         ticker (str): The stock market symbol (e.g., 'AAPL').
 
     Returns:
-        Assets: The SQLAlchemy model instance for the asset.
+        Assets: The SQLAlchemy model instance for the asset
         or None if not found.
     """
     return db.query(Assets).filter(Assets.ticker == ticker.upper().strip()).first()
@@ -73,7 +74,7 @@ def sync_asset_prices(db: Session, ticker: str) -> None:
     """
     Syncs the daily price data for a given asset ticker. 
     It checks the last date of data in the database and fetches new data 
-    from Tiingo starting from the next day.
+    from Tiingo starting from the next day. If no data exits, it fetches the full history.
     
     Args:
         db (Session): The SQLAlchemy database session.
