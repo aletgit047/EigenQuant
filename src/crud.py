@@ -20,7 +20,7 @@ def get_db():
     finally:
         db.close()
 
-def get_or_create_asset(db: Session, name: str, ticker: str) -> Assets | None:
+def get_or_create_asset(db: Session, name: str, ticker: str) -> Asset | None:
     """
     Retrieve an asset from the database or create it if it doesn't exist.
 
@@ -36,14 +36,14 @@ def get_or_create_asset(db: Session, name: str, ticker: str) -> Assets | None:
     ticker_upper = ticker.upper().strip()
     
     # Try to find the asset first
-    asset = db.query(Assets).filter(Assets.ticker == ticker_upper).first()
+    asset = db.query(Asset).filter(Asset.ticker == ticker_upper).first()
     
     if asset:
         print(f"Asset {ticker_upper} already exists. Skipping insertion.")
         return asset
 
     # Create new asset if it doesn't exist
-    new_asset = Assets(name=name, ticker=ticker_upper)
+    new_asset = Asset(name=name, ticker=ticker_upper)
     try:
         db.add(new_asset)
         db.commit()
@@ -55,7 +55,7 @@ def get_or_create_asset(db: Session, name: str, ticker: str) -> Assets | None:
         print(f"Error saving asset {ticker_upper}: {e}")
         return None
 
-def get_asset_by_ticker(db: Session, ticker: str) -> Assets | None:
+def get_asset_by_ticker(db: Session, ticker: str) -> Asset | None:
     """
     Retrieves an asset from the database by ticker. 
     Returns the Asset object if found, otherwise None.
@@ -68,7 +68,7 @@ def get_asset_by_ticker(db: Session, ticker: str) -> Assets | None:
         Assets: The SQLAlchemy model instance for the asset
         or None if not found.
     """
-    return db.query(Assets).filter(Assets.ticker == ticker.upper().strip()).first()
+    return db.query(Asset).filter(Asset.ticker == ticker.upper().strip()).first()
 
 def sync_asset_prices(db: Session, ticker: str) -> None:
     """
