@@ -14,12 +14,14 @@
 
 ## 📂 Project Structure
 ```text
-├── src/
-│   ├── database.py      # Connection logic
-│   ├── models.py        # SQLAlchemy table schemas
-│   └── validators.py    # Data health & integrity checks
-├── main.py              # Entry point
-└── .env                 # Environment variables (Protected)
+└── src/
+    ├── database/          # Database configuration folder
+    │   └── models.py      # SQLAlchemy table schemas & data models
+    ├── algorithms.py      # Quantitative algorithms and logic
+    ├── crud.py            # Create, Read, Update, and Delete operations
+    ├── engine.py          # Database engine & connection setup
+    ├── indicators.py      # Technical indicators & financial metrics
+    └── venv/              # Local virtual environment
 
 ## 📁 Project Intent
 This repository is part of my **professional portfolio**. The primary goal is to demonstrate my ability to apply mathematical concepts to financial data, manage relational databases (PostgreSQL), and write clean, modular Python code. 
