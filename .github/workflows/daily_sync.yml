@@ -26,4 +26,4 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           TIINGO_API_KEY: ${{ secrets.TIINGO_API_KEY }}
-        run: python your_script_filename.py
+        run: python db_seed.py
