@@ -1,0 +1,29 @@
+name: Daily Data Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.0'
+
+      - name: Install dependencies
+        run: |
+          pip install sqlalchemy tiingo python-dotenv psycopg2-binary
+          # Note: If you use a different DB like MySQL, change psycopg2-binary
+
+      - name: Execute script
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          TIINGO_API_KEY: ${{ secrets.TIINGO_API_KEY }}
+        run: python your_script_filename.py
